@@ -81,6 +81,9 @@ var dbUlDone =false;
 //依次传入父元素id，子元素classname，及滚动方向l/r（不传默认r）
 //虽然大部分时候应该都是用ul和li，不过还是写成兼容div样式，不然可以省去第二个参数。
 //改写，如果是ul+li结构，可直接传入父元素id及滚动方向l/r(不传默认r)，如果是div结构，则需要传入父元素id、子元素className及滚动方向l/r（不传默认r）。
+//ie中animation不生效的原因：
+//需要先在css中给出left:0;或者先设置$parent.css('left',0);否则IE的left会是auto，见本函数最后animation（第147行）、index.less第104/105行。
+
 function roller(parentId,childrenCls,direction) {
     var cParentId = '#'+parentId,
         cChildrenCls = '.'+childrenCls;
@@ -93,6 +96,7 @@ function roller(parentId,childrenCls,direction) {
     //parent_left↓
         parent_l,
         dire;
+
 
     if (direction) {
         dire = direction;
@@ -131,13 +135,17 @@ function roller(parentId,childrenCls,direction) {
     }
     if (dire == 'l') {
         parent_l -= children_w;
+
     } else if (dire == 'r') {
         parent_l += children_w;
     } else {
         //保持默认向右滚
         parent_l += children_w;
     }
-    $parent.animate({'left': parent_l}, 'slow');
+    $parent.animate({'left': parent_l}, 'slow'
+        //, function () {console.log($parent.css('left'));} //auto
+    );
+
 }
 
 //放大图片函数

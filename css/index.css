@@ -86,6 +86,7 @@ body {
 .banner .banner-list {
   position: absolute;
   height: 102px;
+  left: 0;
 }
 .banner .banner-list li {
   padding-top: 13px;
@@ -220,11 +221,13 @@ body {
   font-size: 30px;
   font-weight: bold;
   padding-top: 10px;
+  color: #7d7d7d;
 }
 .activity-left p .month {
   font-size: 14px;
 }
 .activity-left .ac-bottom {
+  color: #7d7d7d;
   font-size: 14px;
 }
 .activity-right {
@@ -306,6 +309,7 @@ body {
   float: right;
 }
 .business {
+  width: 630px;
   float: left;
 }
 .business .divide {
@@ -471,6 +475,7 @@ body {
   line-height: 20px;
 }
 .showLove__text {
+  color: #7e7e7e;
   line-height: 24px;
 }
 .showLove__bottomData {

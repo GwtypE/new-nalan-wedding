@@ -101,7 +101,8 @@ body {
   .banner-list {
     position: absolute;
     height: 102px;
-
+    //IE要先设置left为0，jq的animation才生效！我...
+    left: 0;
     li {
       padding-top: 13px;
       width: 215px;
@@ -250,11 +251,13 @@ body {
     font-size: 30px;
     font-weight: bold;
     padding-top: 10px;
+    color: #7d7d7d;
     .month {
       font-size: 14px;
     }
   }
   .ac-bottom {
+    color: #7d7d7d;
     font-size: 14px;
   }
 }
@@ -344,6 +347,7 @@ body {
 }
 
 .business {
+  width: 630px;
   float: left;
   .divide {
     float: left;
@@ -527,6 +531,7 @@ body {
 }
 
 .showLove__text {
+  color: #7e7e7e;
   line-height: 24px;
 }
 
