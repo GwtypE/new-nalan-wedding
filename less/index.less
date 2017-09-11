@@ -578,7 +578,7 @@ body {
   }
   &__item {
     display: inline-block;
-    width: 160px;
+    width: 158px;
     letter-spacing: 0;
     font-size: 12px;
   }
@@ -587,6 +587,7 @@ body {
     height: 191px;
     border: 1px solid #6a6a6a;
     margin: 0 auto;
+    display: block;
   }
 }
 
@@ -860,15 +861,27 @@ body {
   &__name {
     width: 99px;
     height: 13px;
-    font-size: 10px;
-    letter-spacing: 0;
     position: absolute;
     bottom: 0;
-    background-color: #000000;
-    opacity: 0.6;
-    color: #f86e9e;
+    background-color: rgba(0,0,0,0.6);
+  }
+  //用于搜狗浏览器（webkit内核）锁定最小字体为12px（谷歌反而没问题/谷歌最小9px，可能是谷歌版本较新），费劲，虽然搜狗浏览器用的人少，不过360用的多...
+  //写完会有迷之右偏（这个倒很统一），原因未知（水平不够），设置绝对定位强行让其左偏回位
+  &__forFz{
+    width: 119px;
+    height: 15px;
+    display: inline-block;
+    font-size: 12px;
+
+    transform: scale(0.83);
+
     text-align: center;
     font-weight: bold;
+    color: #f86e9e;
+    letter-spacing: 0;
+    line-height: 13px;
+    position: absolute;
+    left: -11px;
   }
 }
 

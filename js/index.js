@@ -7,6 +7,7 @@ $(function () {
 
     //banner底部滚动带
     //为了调试方便，定时器时间间隔设置得较短
+    //大型网站方法多的话还需要考虑下面这俩变量的问题
     var timer = setInterval(function () {
         roller('carousel');
     }, 1000);
@@ -14,6 +15,7 @@ $(function () {
     //保存当前滚动方向
     var currentDire = 'r';
 
+    //滚动带按钮点击控制方向
     $('#carousel-leftBtn').click(function () {
         //如果先执行一次roller函数（把下面的注释打开），在快速多次点击方向按钮之后滚动条会异常。而不先执行一次roller函数（把下面一行注释掉）则点击按钮后会停顿，定时器时间到了之后滚动条才会继续滚动
         //正常使用应该不会出现快速多次点击一个方向的方向按钮，故而还是把注释打开
@@ -41,7 +43,6 @@ $(function () {
     });
 
 
-
     //鼠标移入暂停，移出继续。
     $('.banner-list').on('mouseenter', function () {
         clearInterval(timer);
@@ -49,27 +50,34 @@ $(function () {
         //当前问题：鼠标移入移出之后没法保持当前滚动方向
         //timer = setInterval(function (currentDire) {
         //已解决，roller外层嵌套函数不需要传入currentDire参数。
+        //当第一张图在滚动带最左边而且滚动带在向左滚时，点击向右按钮，会出现空白，待修复
         timer = setInterval(function () {
             roller('carousel',currentDire);
         }, 1000);
     });
-    //当第一张图在滚动带最左边而且滚动带在向左滚时，点击向右按钮，会出现空白，待修复
 
-    $('body').on('mouseover','img', function () {
+
+    //大部分图片错位...原因尚未知...而且直接整个body应用的话二维码及一些装饰的图片也会被放大...
+    //$('body').on('mouseover','img', function () {
+    //    showPic($(this));
+    //}).on('mouseout','img', function () {
+    //        removeImg();
+    //    });
+
+    //只有这两个部分的图片显示正常，图片放大模糊问题需要跟设计师沟通（获取合适分辨率原图），同时需要考虑哪些照片需要大图（性能问题）。
+    $('.portrait-list,.workshow-main').on('mouseover','img', function () {
         showPic($(this));
-    })
-        .on('mouseout','img', function () {
-            removeImg();
-        });
-
+    }).on('mouseout','img', function () {
+        removeImg();
+    });
 
 
 });
 
+//滚动条滚动函数
 var dbUlDone =false;
 //这个全局变量用于第一次执行时将滚动带子元素复制一份，目前想到去掉这个全局变量的方法就是在编写html的时候就直接把ul里的li复制一遍，而不用再用js生成。
 //或者每次调用这个函数之前先自行把li复制一遍（比较傻）
-//滚动条滚动函数
 //依次传入父元素id，子元素classname，及滚动方向l/r（不传默认r）
 //虽然大部分时候应该都是用ul和li，不过还是写成兼容div样式，不然可以省去第二个参数。
 //改写，如果是ul+li结构，可直接传入父元素id及滚动方向l/r(不传默认r)，如果是div结构，则需要传入父元素id、子元素className及滚动方向l/r（不传默认r）。
@@ -148,7 +156,7 @@ function showPic($img){
         'width':parseInt(imgWidth *1.5),
         'height':parseInt(imgHeight *1.5),
         'left':parseInt($img.offset().left+imgWidth/2-imgWidth*1.5/2),
-        'top':parseInt($img.offset().top-imgHeight-imgHeight*1.5-10-15),
+        'top':parseInt($img.offset().top-imgHeight-imgHeight*1.5-10-16),
         'z-index':99,
         'border':'5px solid #e5e5e5'
     });

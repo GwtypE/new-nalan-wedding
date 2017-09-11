@@ -532,7 +532,7 @@ body {
 }
 .showDress__item {
   display: inline-block;
-  width: 160px;
+  width: 158px;
   letter-spacing: 0;
   font-size: 12px;
 }
@@ -541,6 +541,7 @@ body {
   height: 191px;
   border: 1px solid #6a6a6a;
   margin: 0 auto;
+  display: block;
 }
 .actions {
   float: left;
@@ -835,15 +836,23 @@ body {
 .ourTeam__name {
   width: 99px;
   height: 13px;
-  font-size: 10px;
-  letter-spacing: 0;
   position: absolute;
   bottom: 0;
-  background-color: #000000;
-  opacity: 0.6;
-  color: #f86e9e;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ourTeam__forFz {
+  width: 119px;
+  height: 15px;
+  display: inline-block;
+  font-size: 12px;
+  transform: scale(0.83);
   text-align: center;
   font-weight: bold;
+  color: #f86e9e;
+  letter-spacing: 0;
+  line-height: 13px;
+  position: absolute;
+  left: -11px;
 }
 .quickEntry {
   width: 240px;
