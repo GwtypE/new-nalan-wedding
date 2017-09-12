@@ -23,7 +23,7 @@ $(function () {
         //roller('l');
         clearInterval(timer);
         timer = setInterval(function () {
-            roller('carousel','l');
+            roller('carousel', 'l');
         }, 1000);
         currentDire = 'l';
     });
@@ -32,7 +32,7 @@ $(function () {
         //roller('r');
         clearInterval(timer);
         timer = setInterval(function () {
-            roller('carousel','r');
+            roller('carousel', 'r');
         }, 1000);
         currentDire = 'r';
     });
@@ -50,9 +50,9 @@ $(function () {
         //当前问题：鼠标移入移出之后没法保持当前滚动方向
         //timer = setInterval(function (currentDire) {
         //已解决，roller外层嵌套函数不需要传入currentDire参数。
-        //当第一张图在滚动带最左边而且滚动带在向左滚时，点击向右按钮，会出现空白，待修复
+
         timer = setInterval(function () {
-            roller('carousel',currentDire);
+            roller('carousel', currentDire);
         }, 1000);
     });
 
@@ -65,17 +65,16 @@ $(function () {
     //    });
 
     //只有这两个部分的图片显示正常，图片放大模糊问题需要跟设计师沟通（获取合适分辨率原图），同时需要考虑哪些照片需要大图（性能问题）。
-    $('.portrait-list,.workshow-main').on('mouseover','img', function () {
+    $('.portrait-list,.workshow-main').on('mouseover', 'img', function () {
         showPic($(this));
-    }).on('mouseout','img', function () {
+    }).on('mouseout', 'img', function () {
         removeImg();
     });
-
 
 });
 
 //滚动条滚动函数
-var dbUlDone =false;
+var dbUlDone = false;
 //这个全局变量用于第一次执行时将滚动带子元素复制一份，目前想到去掉这个全局变量的方法就是在编写html的时候就直接把ul里的li复制一遍，而不用再用js生成。
 //或者每次调用这个函数之前先自行把li复制一遍（比较傻）
 //依次传入父元素id，子元素classname，及滚动方向l/r（不传默认r）
@@ -84,9 +83,9 @@ var dbUlDone =false;
 //ie中animation不生效的原因：
 //需要先在css中给出left:0;或者先设置$parent.css('left',0);否则IE的left会是auto，见本函数最后animation（第147行）、index.less第104/105行。
 
-function roller(parentId,childrenCls,direction) {
-    var cParentId = '#'+parentId,
-        cChildrenCls = '.'+childrenCls;
+function roller(parentId, childrenCls, direction) {
+    var cParentId = '#' + parentId,
+        cChildrenCls = '.' + childrenCls;
 
     var $children,
     //children_width↓
@@ -104,44 +103,48 @@ function roller(parentId,childrenCls,direction) {
         dire = 'r'
     }
 
-    if(childrenCls=='r'||childrenCls=='l'){
+    if (childrenCls == 'r' || childrenCls == 'l') {
         dire = childrenCls;
         $children = $(cParentId).find('li');
-    }else if(childrenCls==undefined){
+    } else if (childrenCls == undefined) {
         $children = $(cParentId).find('li');
     } else {
         $children = $(cParentId).find(cChildrenCls);
     }
 
-    children_w = parseFloat($children.width());
+    children_w = parseInt($children.width());
     $parent = $(cParentId);
 
     //检查Ul是否已复制，已复制则跳过。
-    if(!dbUlDone){
+    if (!dbUlDone) {
         $parent.append($children.clone())
             .css('width', children_w * $children.length * 2);
         dbUlDone = true;
     }
 
-    parent_w = parseFloat($parent.css('width'));
+    parent_w = parseInt($parent.css('width'));
     parent_l = parseInt($parent.css('left'));
 
-    if (parent_l <= -parent_w / 2) {
+    //当第一张图在滚动带最左边而且滚动带在向左滚时，点击向右按钮，会出现空白，待修复
+    //if (parent_l <= -parent_w / 2 ) {
+    //已修复，判断条件需要加上dire == 'l'
+    if (parent_l <= -parent_w / 2 && dire == 'l') {
         $parent.css('left', 0);
-        parent_l = parseFloat($parent.css('left'));
+        parent_l = parseInt($parent.css('left'));
     } else if (parent_l >= 0 && dire == 'r') {
         $parent.css('left', -parent_w / 2);
-        parent_l = parseFloat($parent.css('left'));
+        parent_l = parseInt($parent.css('left'));
     }
+
     if (dire == 'l') {
         parent_l -= children_w;
-
     } else if (dire == 'r') {
         parent_l += children_w;
     } else {
         //保持默认向右滚
         parent_l += children_w;
     }
+    //parent_l = parseInt($parent.css('left'));
     $parent.animate({'left': parent_l}, 'slow'
         //, function () {console.log($parent.css('left'));} //auto
     );
@@ -149,40 +152,40 @@ function roller(parentId,childrenCls,direction) {
 }
 
 //放大图片函数
-function showPic($img){
+function showPic($img) {
     var imgSrc = $img.attr('src');
-    var imgWidth =$img.width();
-    var imgHeight =$img.height();
+    var imgWidth = $img.width();
+    var imgHeight = $img.height();
 
     $('<span id="newTriangle"></span>').prependTo('body');
     $('<img id="showImg">').prependTo('body');
 
     //prop('src'):http://localhost:63342/demo4/img/portrait-list-1.jpg
     //attr('src):img/portrait-list-1.jpg
-    $('#showImg').attr('src',imgSrc).css({
-        'position':'absolute',
-        'width':parseInt(imgWidth *1.5),
-        'height':parseInt(imgHeight *1.5),
-        'left':parseInt($img.offset().left+imgWidth/2-imgWidth*1.5/2),
-        'top':parseInt($img.offset().top-imgHeight-imgHeight*1.5-10-16),
-        'z-index':99,
-        'border':'5px solid #e5e5e5'
+    $('#showImg').attr('src', imgSrc).css({
+        'position': 'absolute',
+        'width': parseInt(imgWidth * 1.5),
+        'height': parseInt(imgHeight * 1.5),
+        'left': parseInt($img.offset().left + imgWidth / 2 - imgWidth * 1.5 / 2),
+        'top': parseInt($img.offset().top - imgHeight - imgHeight * 1.5 - 10 - 16),
+        'z-index': 99,
+        'border': '5px solid #e5e5e5'
     });
     $('#newTriangle').css({
-        'position':'absolute',
+        'position': 'absolute',
         'width': 0,
         'height': 0,
-        'left':parseInt($img.offset().left+imgWidth/2-16/2),
-        'top':parseInt($img.offset().top-16),
+        'left': parseInt($img.offset().left + imgWidth / 2 - 16 / 2),
+        'top': parseInt($img.offset().top - 16),
         'border-left': '16px solid transparent',
         'border-top': '16px solid #e5e5e5',
         'border-right': '16px solid transparent',
         'display': 'inline-block',
-        'z-index':99
+        'z-index': 99
     });
 }
 //
-function removeImg(){
+function removeImg() {
     $('#showImg').remove();
     $('#newTriangle').remove();
 }
