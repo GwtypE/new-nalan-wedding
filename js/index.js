@@ -193,7 +193,11 @@ function removeImg() {
 //相当于把fun()放到 最外面的全局环境中执行了。而如果fun()函数是写在window.onload内的话，就会访问不到fun()函数本身从而报错。
 
 
-
+//尝试superSlide插件
+//打开index.less的935-977行、index.html的53-60、83-103、105行及下面这段js
+//jQuery(".banner-list-mask").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:true,vis:4,delayTime:500});
+//delayTime是运动时间，而不是间隔时间
+//经测试，hd里没有ul也可以正常工作，修改一下样式应该可以实现和原本一样的效果（除了滚到头会回滚到第一张外）。
 
 
 
